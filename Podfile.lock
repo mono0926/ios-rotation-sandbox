@@ -1,0 +1,13 @@
+PODS:
+  - Aspects (1.4.1)
+  - Masonry (0.6.1)
+
+DEPENDENCIES:
+  - Aspects
+  - Masonry
+
+SPEC CHECKSUMS:
+  Aspects: 7595ba96a6727a58ebcbfc954497fc5d2fdde546
+  Masonry: 4972309f2f134de9dd312f4dc4a21359b50e6caa
+
+COCOAPODS: 0.36.3
