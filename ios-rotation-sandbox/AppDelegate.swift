@@ -49,7 +49,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         assert(error == nil)
         ObjcHelper.aspect_viewControllerHookSelector("dismissViewControllerAnimated:completion:", withOptions: .PositionBefore, error: &error) { info in
             let vc = info.instance() as UIViewController
-            self.allowRotation = vc.presentingViewController!.allowRotation
+            if let presentingViewController = vc.presentingViewController {
+                self.allowRotation = presentingViewController.allowRotation
+            }
             // When WebView full screen movie disappearing, no event occured...
             if ObjcHelper.isFullScreenAVPlayer(vc) && !self.allowRotation {
                 UIDevice.currentDevice().setValue(UIInterfaceOrientation.Portrait.rawValue, forKey: "orientation")
