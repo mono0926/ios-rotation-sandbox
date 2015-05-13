@@ -13,7 +13,7 @@ private var allowRotationKey: UInt8 = 0
 
 extension UIViewController {
     func appDelegate() -> AppDelegate {
-        return UIApplication.sharedApplication().delegate as AppDelegate
+        return UIApplication.sharedApplication().delegate as! AppDelegate
     }
     var allowRotation: Bool {
         get { return (objc_getAssociatedObject(self, &allowRotationKey) as? Bool) ?? false }

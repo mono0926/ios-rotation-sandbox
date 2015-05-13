@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var error: NSError? = nil
         // for WebView full screen movie
         ObjcHelper.aspect_viewControllerHookSelector("viewDidLoad", withOptions: .PositionBefore, error: &error) { info in
-            let vc = info.instance() as UIViewController
+            let vc = info.instance() as! UIViewController
             if ObjcHelper.isFullScreenAVPlayer(vc) {
                 vc.allowRotation = true
             }
@@ -33,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         assert(error == nil)
         // setting allowRotation
         ObjcHelper.aspect_viewControllerHookSelector("viewWillAppear:", withOptions: .PositionBefore, error: &error) { info in
-            let vc = info.instance() as UIViewController
+            let vc = info.instance() as! UIViewController
             if !vc.isCustom() && !vc.allowRotation {
                 return
             }
@@ -42,13 +42,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         assert(error == nil)
         // handle dismiss
         ObjcHelper.aspect_navigationControllerHookSelector("popViewControllerAnimated:", withOptions: .PositionBefore, error: &error) { info in
-            let vc = info.instance() as UINavigationController
+            let vc = info.instance() as! UINavigationController
             let vcs = vc.viewControllers
-            self.allowRotation = (vcs[vcs.count - 2] as UIViewController).allowRotation
+            self.allowRotation = (vcs[vcs.count - 2] as! UIViewController).allowRotation
         }
         assert(error == nil)
         ObjcHelper.aspect_viewControllerHookSelector("dismissViewControllerAnimated:completion:", withOptions: .PositionBefore, error: &error) { info in
-            let vc = info.instance() as UIViewController
+            let vc = info.instance() as! UIViewController
             if let presentingViewController = vc.presentingViewController {
                 self.allowRotation = presentingViewController.allowRotation
             }
@@ -60,7 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         assert(error == nil)
         // override supportedInterfaceOrientations to return allowRotation managed by AppDelegate
         ObjcHelper.aspect_viewControllerHookSelector("supportedInterfaceOrientations", withOptions: .PositionInstead, error: &error) { info in
-            let vc = info.instance() as UIViewController
+            let vc = info.instance() as! UIViewController
             let invocation = info.originalInvocation()
             var ret = Int(self.allowRotation ? UIInterfaceOrientationMask.AllButUpsideDown.rawValue : UIInterfaceOrientationMask.Portrait.rawValue)
             invocation.setReturnValue(&ret)
@@ -69,10 +69,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(application: UIApplication, supportedInterfaceOrientationsForWindow window: UIWindow?) -> Int {
-        if allowRotation {
-            return Int(UIInterfaceOrientationMask.AllButUpsideDown.rawValue)
-        }
-        return Int(UIInterfaceOrientationMask.Portrait.rawValue)
+        return Int(UIInterfaceOrientationMask.AllButUpsideDown.rawValue)
     }
 }
 
