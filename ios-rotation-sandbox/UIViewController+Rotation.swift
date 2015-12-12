@@ -17,7 +17,7 @@ extension UIViewController {
     }
     var allowRotation: Bool {
         get { return (objc_getAssociatedObject(self, &allowRotationKey) as? Bool) ?? false }
-        set { objc_setAssociatedObject(self, &allowRotationKey, newValue, UInt(OBJC_ASSOCIATION_RETAIN)) }
+        set { objc_setAssociatedObject(self, &allowRotationKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN) }
     }
     func isCustom() -> Bool {
         return NSStringFromClass(self.dynamicType).componentsSeparatedByString(".").count > 1

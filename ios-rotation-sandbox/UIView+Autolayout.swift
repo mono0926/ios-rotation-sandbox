@@ -9,7 +9,6 @@
 import Foundation
 extension UIView {
     func bindToSuperView() {
-        let frame = superview!.frame
         mas_makeConstraints { make in
             // MasonryはSwiftだと構文がおかしいのでCartography or Snappy推奨
             make.edges.equalTo()(self.superview!).with().insets()(UIEdgeInsetsZero)
